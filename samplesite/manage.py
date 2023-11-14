@@ -3,6 +3,13 @@
 import os
 import sys
 
+# python manage.py runserver
+# в консоли писать это
+# ctrl + c - выход
+# exit()
+# python manage.py makemigrations
+# python manage.py migrate
+# python manage.py runserver
 
 def main():
     """Run administrative tasks."""
