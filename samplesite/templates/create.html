@@ -1,0 +1,22 @@
+{% extends "layout/basic.html" %}
+
+{% block title} Добавление объявления{% endblock %}
+
+
+    <h2>Добавление объявления</h2>
+
+<div>
+    <a href="{% url 'index' %}">Главная</a>
+    {% for rubric in rubrics %}
+        <a href="{% url 'by_rubric' rubric.pk %}">{{ rubric.name }}</a>
+    {% endfor %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Добавить">
+</form>
+
+</body>
+</html>
