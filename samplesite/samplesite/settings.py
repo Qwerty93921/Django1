@@ -43,12 +43,12 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', # защита от сетевых атак
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware', # защищает от межсайтовых атак
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', # защита от сетевых атак
 ]
 
 ROOT_URLCONF = 'samplesite.urls'
@@ -109,9 +109,10 @@ LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Asia/Almaty'
 
-USE_I18N = True
+USE_I18N = True # Interpreter(переводчик)
+USE_L18N = True # Localisation
 
-USE_TZ = True
+USE_TZ = True # временая зона
 
 
 # Static files (CSS, JavaScript, Images)

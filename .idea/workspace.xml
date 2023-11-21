@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="6f80bcbe-985c-4dd1-9c58-3d3d2bfe1909" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/samplesite/bboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/samplesite/bboard/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/bboard/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/bboard/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/bboard/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/bboard/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/samplesite/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/samplesite/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/samplesite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/samplesite/samplesite/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/samplesite/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samplesite/samplesite/wsgi.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +38,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/КостюшокА/Documents/GitHub/AK_JANGO/testsite&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/КостюшокА/Documents/GitHub/AK_JANGO&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -73,11 +82,24 @@
       <workItem from="1699366884363" duration="5143000" />
       <workItem from="1700146759816" duration="83000" />
       <workItem from="1700146865689" duration="69000" />
+      <workItem from="1700572891001" duration="1798000" />
+      <workItem from="1700574716829" duration="660000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -90,6 +112,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AK_JANGO$main.coverage" NAME="main Coverage Results" MODIFIED="1699369008981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AK_JANGO$main.coverage" NAME="main Coverage Results" MODIFIED="1700575292445" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
