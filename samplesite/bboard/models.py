@@ -48,7 +48,7 @@ class Bb(models.Model):
 
     # kind = models.CharField(max_length=1, choices=KINDS, default='s')
     kind = models.CharField(max_length=1, choices=KINDS, blank=True)
-
+    is_active_default = False
     rubric = models.ForeignKey("Rubric", null=True, on_delete=models.PROTECT,
                                verbose_name='Рубрика') # foreignKey = нижний ключ
     title = models.CharField(max_length=50, verbose_name="Товар")
