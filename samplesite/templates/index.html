@@ -4,13 +4,12 @@
 {% block content %}
 {% for bb in bbs %}
 <div>
-    <h2>{{bb.title}}</h2>
+    <h2>{#{bb.title}#}{{bb.title_and_price}}</h2>
     <p>{{bb.content}}</p>
 
     <p>
         <a href="{ % url 'by_rubric' rubric.pk %}">{{ bb.rubric.name }}</a>
     </p>
-
 
     <p>{{bb.pusblished|date:"d.m.Y H:i:s"}}</p>
 </div>
