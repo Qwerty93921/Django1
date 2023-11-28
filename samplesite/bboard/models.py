@@ -13,6 +13,11 @@ def is_active_default():
 # python manage.py createsuperuser
 # alt + enter при import
 
+# git add --all
+# git commit -m "комментарий"
+# git push origin lesson_07
+# название ветки в конце
+
 def validate_even(val):
     if val % 2 != 0:
         raise ValidationError('Число %(value)s нечетное',
