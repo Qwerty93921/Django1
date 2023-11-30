@@ -9,6 +9,7 @@ from bboard.models import Rubric, Bb
 
 JSON_PATH = os.path.join('bboard', 'fixtures')
 
+
 def load_from_json(file_name):
     with open(os.path.join(JSON_PATH, file_name), mode='r', encoding='utf-8') as file:
         return json.load(file)
