@@ -1,9 +1,11 @@
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.core import validators
 
 is_all_posts_passive = True
+
 
 def is_active_default():
     return is_all_posts_passive
@@ -18,24 +20,28 @@ def is_active_default():
 # git push origin lesson_07
 # название ветки в конце
 
+
 def validate_even(val):
     if val % 2 != 0:
         raise ValidationError('Число %(value)s нечетное',
                               code='odd',
                               params={'value':val})
 
-class MinMaxValueValidator:
-    def __init__(self, min_value, max_value):
-        self.min_value = min_value
-        self.max_value = max_value
 
-    def __call__(self, val):
-        if val < self.min_value or val > self.max_value:
-            raise ValidationError(
-                'Введенное число должно находиться в диапозоне от %(min)s до %(max)s',
-                code='out_of_range',
-                params={'min': self.min_value, 'max': self.max_value}
-            )
+# class MinMaxValueValidator:
+#     def __init__(self, min_value, max_value):
+#         self.min_value = min_value
+#         self.max_value = max_value
+#
+#     def __call__(self, val):
+#         if val < self.min_value or val > self.max_value:
+#             raise ValidationError(
+#                 'Введенное число должно находиться в диапозоне от %(min)s до %(max)s',
+#                 code='out_of_range',
+#                 params={'min': self.min_value, 'max': self.max_value}
+#             )
+#
+
 
 class Rubric(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name='Название')
@@ -58,7 +64,15 @@ class Rubric(models.Model):
         verbose_name = 'Рубрики'
         ordering = ['name']
 
+
 class Bb(models.Model):
+
+    KINDS = (
+        (None, 'Выберите тип объявления'),
+        ('b', 'Куплю'),
+        ('s', 'Продам'),
+        ('c', 'Обменяю'),
+    )
 
     # class Kinds(models.TextChoices):
     #     BUY = 'b', 'Куплю'
@@ -92,15 +106,8 @@ class Bb(models.Model):
         #             validators.MaxLengthValidator(50)]
     )
 
-    # KINDS = (
-    #     (None, 'Выберите тип объявления'),
-    #     ('b', 'Куплю'),
-    #     ('s', 'Продам'),
-    #     ('c', 'Обменяю'),
-    # )
+    kind = models.CharField(max_length=1, choices=KINDS, default='s', verbose_name='Тип объявления')
 
-    # kind = models.CharField(max_length=1, choices=KINDS, default='s')
-    # kind = models.CharField(max_length=1, choices=KINDS, blank=True)
     is_active_default = False
 
     content = models.TextField(null=True, blank=True, verbose_name="Описание")
@@ -109,8 +116,8 @@ class Bb(models.Model):
         decimal_places=2,
         verbose_name="Цена",
         default=0,
-        validators=[validate_even,
-                    MinMaxValueValidator(25, 45)                    ]
+        # validators=[validate_even,
+                    # MinMaxValueValidator(25, 45)]
     )
 
     is_active = models.BooleanField(default=is_active_default)
