@@ -182,3 +182,30 @@
 # <AdvUser: AdvUser object (1)>
 #
 # pk - primary key(первичный ключ)
+
+# ----------------------------------------------------------------------------------------------------------------
+
+# python manage.py shell
+#
+# (Все что далее это из консоли)
+#
+# from bboard.models import Rubric, Bb
+# r = Rubric.objects.get(name='Сельхозинвентарь')
+# r.get_bb_order()
+# <QuerySet [2, 3]>(само выходит)
+# r.set_bb_order([3, 2])
+# r.get_bb_order()
+# <QuerySet [3, 2]>(само выходит)
+#
+# (меняет местами ID и расположение вещей в списке)
+#
+#
+# Bulk_create(создать толпу) - сразу много значений за одну команду добавляется
+# bulk_update
+#
+# Bb.objects.bulk_create([Bb(title='Пылесос', content='Хороший, мощный', price=1000, rubric=r), Bb(title='Стиральная машина', content='Автоматическая', price=1000, rubric=r)])
+#
+#
+# Операции сравнения в запросах
+# lt = less than
+# Bb.objects.filter(price__lt=40).update(price=40)
