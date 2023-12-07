@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import AdvUser, Machine, Spare
 
-# Register your models here.
+admin.site.register(AdvUser)
+admin.site.register(Machine)
+admin.site.register(Spare)

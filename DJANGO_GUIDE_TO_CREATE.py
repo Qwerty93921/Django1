@@ -77,3 +77,108 @@
 # dump - туда
 # load - обратно
 
+# -----------------------------------------------------------------------------------------------------------------------------------------
+
+# LESSON_09
+
+# python manage.py shell
+# (вызов консоли, exit(), quit() - выход из нее)
+#
+# b = Bb.objects.get(pk=21)
+#
+# b вызвать(перезаписано)
+#
+# b.title = 'Бобер ездовой'
+# b.content = 'Огромный'
+# b.price = 100000
+# b.save()
+# (сохранение b)
+#
+#
+# --------------------------------------------------------------------------
+# from bboard.models import Bb
+# (если не работает)
+#
+# from bboard.models import Rubric
+# r = Rubric()
+# r.name = 'Бытовая техника'
+# r.save()
+# r = Rubric(name='Сельхозтехника')
+# r.save()
+# r = Rubric.objects.create(name='Мебель')
+# r
+# (Мебель должно высветиться)
+#
+#
+# r.pk
+# 3(выдает)
+#
+#
+# Rubric.objects.get_or_create(name='Мебель')
+# Rubric.objects.get_or_create(name='Цветы')
+# Rubric.objects.get_or_create(name='Сантехника')
+#
+# Rubric.objects.update_or_create(name='Цветы', defaults={'name': 'Растения'}
+#
+# b = Bb.objects.get(pk=21)
+# b.kind
+#
+# b.title = 'Бобер необъезженный'
+# b.save(update_fields=['title'])
+#
+# --------------------------------------------------------------------------------------------------
+# python manage.py shell
+# (в консоли)
+#
+# from bboard.models import Bb
+# b = Bb.objects.get(title='fg35353')
+#
+# b.delete()
+#
+# from bboard.models import Rubric
+# r = Rubric.objects.get(name='Недвижимость')
+#
+# b = Bb()
+# b.title='Телевышка'
+# b.content='345 метров'
+# b.price = 1050
+# b.rubric = r
+# b.save()
+#
+# r = Rubric.objects.create(name='Сельхозинвентарь')
+# b = Bb.objects.create(title='Мотыга')
+#
+# b = Bb.objects.create(title='Мотыга', content='Ржавая', price=20)
+# b.title = 'Мотыга'
+#
+# b.save()
+# r.bb_set.add(b)
+#
+# b.rubric
+# (Выходит - Сельхозинвентарь)
+#
+# >>> b2 = r.bb_set.create(title='Лопата', content='Почти новая', price=1000)
+# >>> b2.rubric
+# (<Rubric: Сельхозинвентарь>) - выходит
+#
+# from testapp.models import AdvUser
+#
+# >>> from django.contrib.auth.models import User
+# >>> from testapp.models import AdvUser
+# >>> from django.contrib.auth.models import User
+# >>> u = User.objects.get(username='admin')
+#
+# >>> au = AdvUser.objects.create(user=u)
+#
+# au = AdvUser.objects.create(user=u)
+# >>> au.user
+# <User: admin>
+# >>> u.advuser
+# <AdvUser: AdvUser object (1)>
+# >>> au2 = AdvUser.objects.get(pk=1)
+# >>> u.advuser = au2
+# >>> u.save()
+# >>> u.advuser
+# <AdvUser: AdvUser object (1)>
+#
+# pk - primary key(первичный ключ)

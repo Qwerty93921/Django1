@@ -113,7 +113,7 @@ class Bb(models.Model):
     content = models.TextField(null=True, blank=True, verbose_name="Описание")
     price = models.DecimalField(
         max_digits=8,
-        decimal_places=2,
+        decimal_places=2, # цифры после плавающей точки
         verbose_name="Цена",
         default=0,
         # validators=[validate_even,
@@ -159,4 +159,5 @@ class Bb(models.Model):
     class Meta:
         verbose_name_plural = 'Объявления'
         verbose_name = 'Объявления'
-        ordering = ['-published']
+        # ordering = ['-published']
+        # order_with_respect_to = 'rubric'
