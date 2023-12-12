@@ -18,17 +18,19 @@ from .models import Bb, Rubric
 
 def index(request):
     bbs = Bb.objects.order_by('-published')
-    rubrics = Rubric.objects.all()
+    rubrics = Rubric.objects.filter(bb__isnull=False).distinct()
     context = {'bbs': bbs, 'rubrics':rubrics}
     return render(request, 'index.html', context)
 
+
 def by_rubric(request, rubric_id):
     bbs = Bb.objects.filter(rubric=rubric_id)
-    rubrics = Rubric.objects.all()
+    rubrics = Rubric.objects.filter(bb__isnull=False).distinct()
     current_rubric = Rubric.objects.get(pk=rubric_id)
     context = {'bbs':bbs, 'rubrics':rubrics,
                'current_rubrics':current_rubric}
     return render(request, 'by_rubric.html', context)
+
 
 class BbCreateView(CreateView):
     template_name = 'create.html'
