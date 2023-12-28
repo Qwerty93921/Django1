@@ -1,6 +1,6 @@
 from django.db.models import Count
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
 from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy, reverse
@@ -129,19 +129,19 @@ class BbCreateView(CreateView):
         return context
 
 
-def details(request, bb_id):
-    try:
-        bb = Bb.objects.get(pk=bb_id)
-    except Bb.DoesNotExist:
-        raise Http404()
-    return HttpResponse()
+# def details(request, bb_id):
+#     try:
+#         bb = Bb.objects.get(pk=bb_id)
+#     except Bb.DoesNotExist:
+#         raise Http404()
+#     return HttpResponse()
 
 
-def index_old(request):
-    template = loader.get_template('index.html')
-    bbs = Bb.objects.order_by('-published')
-    context = {'bbs': bbs}
-    return HttpResponse(template.render(context, request))
+# def index_old(request):
+#     template = loader.get_template('index.html')
+#     bbs = Bb.objects.order_by('-published')
+#     context = {'bbs': bbs}
+#     return HttpResponse(template.render(context, request))
 
     # s = 'Список объявлений\r\n\r\n\r\n'
     #

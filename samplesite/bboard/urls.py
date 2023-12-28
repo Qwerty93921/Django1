@@ -18,8 +18,9 @@ Including another URLconf
 from django.urls import path, re_path
 from .views import (index, BbByRubricView,  # by_rubric, BbCreateView,
     # add, add_save,
-                    add_and_save, BbCreateView,
-    # detail
+                   # add_and_save,
+                    BbCreateView,
+    # details
                     )
 
 # Скобки потому что много строк, если 1 СТРОКА, тогда БЕЗ СКОБОК
