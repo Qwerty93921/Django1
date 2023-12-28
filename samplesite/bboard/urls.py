@@ -16,10 +16,10 @@ Including another URLconf
 """
 
 from django.urls import path, re_path
-from .views import (index, by_rubric, BbCreateView,
-                    # add, add_save,
-                    add_and_save,
-                    # detail
+from .views import (index, BbByRubricView,  # by_rubric, BbCreateView,
+    # add, add_save,
+                    add_and_save, BbCreateView,
+    # detail
                     )
 
 # Скобки потому что много строк, если 1 СТРОКА, тогда БЕЗ СКОБОК
@@ -30,8 +30,9 @@ urlpatterns = [
     # path('add/', BbCreateView.as_view(), name='add'),
 
     # path('add/save/', add_save, name='add_save'),
-    path('add/', add_and_save, name='add'),
 
-    path('<int:rubric_id>/', by_rubric, name='by_rubric'),
+    path('add/', BbCreateView.as_view(), name='add'),
+
+    path('<int:rubric_id>/', BbByRubricView.as_view(), name='by_rubric'),
     path('', index, name='index'),
 ]
