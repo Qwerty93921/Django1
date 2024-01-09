@@ -18,7 +18,8 @@ Including another URLconf
 from django.urls import path
 
 from .views import (index, BbByRubricView,
-                    BbCreateView, BbDetailView
+                    # BbCreateView,
+                    BbDetailView, BbAddView
                     )
 
 # Скобки потому что много строк, если 1 СТРОКА, тогда БЕЗ СКОБОК
@@ -31,7 +32,7 @@ urlpatterns = [
     # path('add/save/', add_save, name='add_save'),
 
     path('detail/<int:pk>/', BbDetailView.as_view(), name='detail'),
-    path('add/', BbCreateView.as_view(), name='add'),
+    path('add/', BbAddView.as_view(), name='add'),
 
     path('<int:rubric_id>/', BbByRubricView.as_view(), name='by_rubric'),
     path('', index, name='index'),
