@@ -15,12 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path, re_path
-from .views import (index, BbByRubricView,  # by_rubric, BbCreateView,
-    # add, add_save,
-                   # add_and_save,
-                    BbCreateView,
-    # details
+from django.urls import path
+
+from .views import (index, BbByRubricView,
+                    BbCreateView, BbDetailView
                     )
 
 # Скобки потому что много строк, если 1 СТРОКА, тогда БЕЗ СКОБОК
@@ -32,6 +30,7 @@ urlpatterns = [
 
     # path('add/save/', add_save, name='add_save'),
 
+    path('detail/<int:pk>/', BbDetailView.as_view(), name='detail'),
     path('add/', BbCreateView.as_view(), name='add'),
 
     path('<int:rubric_id>/', BbByRubricView.as_view(), name='by_rubric'),
