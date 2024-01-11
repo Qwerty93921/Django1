@@ -7,25 +7,56 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import FormView, ArchiveIndexView, MonthArchiveView
+
+# FormView, ArchiveIndexView, MonthArchiveView
 
 from .forms import BbForm
 from .models import Bb, Rubric
 
 
-def index(request):
-    bbs = Bb.objects.all()
-    rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
-    context = {'bbs': bbs, 'rubrics': rubrics}
-    # template = get_template('index.html')
-    # return HttpResponse(
-    #     # template.render(context=context, request=request))
-    #     template.render(context, request))
+# def index(request):
+#     bbs = Bb.objects.all()
+#     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
+#     context = {'bbs': bbs, 'rubrics': rubrics}
+#     # template = get_template('index.html')
+#     # return HttpResponse(
+#     #     # template.render(context=context, request=request))
+#     #     template.render(context, request))
+#
+#     return HttpResponse(
+#         render_to_string('index.html', context, request)
+#     )
 
-    return HttpResponse(
-        render_to_string('index.html', context, request)
-    )
+class BbIndexView(ArchiveIndexView):
+    model = Bb
+    template_name = 'index.html'
+    date_field = 'published'
+    date_list_period = 'month'
+    month_format = '%m'
+    context_object_name = 'bbs'
+    allow_empty = True
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
+
+
+class BbMonthView(MonthArchiveView):
+    model = Bb
+    template_name = 'index.html'
+    date_field = 'published'
+    date_list_period = 'month'
+    month_format = '%m'
+    context_object_name = 'bbs'
+    allow_empty = True
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
 
 # def index_1(request):
 #     response = HttpResponse("Здесь будет",
@@ -108,6 +139,28 @@ class BbDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.all()
         return context
+
+
+class BbEditView(UpdateView):
+    model = Bb
+    form_class = BbForm
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubric'] = Rubric.objects.all()
+        return context
+
+
+class BbDeleteView(DeleteView):
+    model = Bb
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubric'] = Rubric.objects.all()
+        return context
+
 
 
 # class BbByRubricView(TemplateView):
