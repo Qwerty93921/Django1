@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+import django.template.context_processors
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -60,11 +62,18 @@ TEMPLATES = [
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
+            # 'file_charset' : 'utf-8',
+            # 'debug' : False,
+
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
+                'django.contrib.auth.context_processors.auth', # user, perms
                 'django.contrib.messages.context_processors.messages',
+
+                # 'django.template.context_processors.csrf',
+                # 'django.template.context_processors.static',
+                # 'django.template.context_processors.media',
             ],
         },
     },
