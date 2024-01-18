@@ -13,19 +13,40 @@
 
 
 {% for bb in bbs %}
-<div>
+{#% cycle 'b1' 'b2' 'b3' as currentclass %#}
+
+<div class="{% cycle 'b1' 'b2' 'b3' %}">
+
     <h2>
+        {% url 'bboard:detail' bb.pk as detail_url %}
         <a href="{% url 'bboard:detail' pk=bb.pk %}">
-            {{ bb.title }}</a>
+            {{ forloop.counter }} - {{ bb.title_and_price }}
+            {% if forloop.first == True %}
+                (Первое Объявление)
+            {% elif forloop.last == True %}
+                (Последнее Объявление)
+            {% endif %}</a>
     </h2>
-        {#{bb.title}#}{{bb.title_and_price}}</h2>
-    <p>{{bb.content}}</p>
+
+    <p>{{  bb.content|cut:'Lorem'  }}</p>
+<!--    cut - слово не будет показываться в тексте -->
+
+    {% ifchanged bb.rubric.name %}
 
     <p>
-        <a href="{ % url 'by_rubric' rubric.pk %}">{{ bb.rubric.name }}</a>
+        <a href="{ % url 'by_rubric' bb.rubric.pk %}">
+            {{ bb.rubric.name }}</a>
     </p>
+    {% endifchanged %}
+
 
     <p>{{bb.pusblished|date:"d.m.Y H:i:s"}}</p>
+
+    {% firstof bb.phone bb.email 'На деревню дедушке' %}
+
 </div>
+{% empty %}
+    <p>Объявлений нет!!!</p>
+
 {% endfor %}
 {% endblock %}
