@@ -1,7 +1,8 @@
 {% extends "layout/basic.html" %}
 
-
 {% block content %}
+
+    {{ block.super }}
 
     <p>
     {% for d in date_list %}
@@ -49,4 +50,4 @@
     <p>Объявлений нет!!!</p>
 
 {% endfor %}
-{% endblock %}
+{% endblock content %}
