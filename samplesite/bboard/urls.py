@@ -18,8 +18,8 @@ Including another URLconf
 from django.urls import path
 
 from .views import (# index,
-                    BbByRubricView, BbCreateView,
-                    BbDetailView, BbAddView, BbIndexView, BbEditView, BbDeleteView, BbMonthView,
+                    BbIndexView, BbByRubricView, BbCreateView,
+                    BbDetailView, BbAddView, BbEditView, BbDeleteView, BbMonthView,
                     RedirectView,
                     )
 

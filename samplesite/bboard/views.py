@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -16,32 +17,55 @@ from .forms import BbForm
 from .models import Bb, Rubric
 
 
-# def index(request):
-#     bbs = Bb.objects.all()
-#     rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
-#     context = {'bbs': bbs, 'rubrics': rubrics}
-#     # template = get_template('index.html')
-#     # return HttpResponse(
-#     #     # template.render(context=context, request=request))
-#     #     template.render(context, request))
-#
-#     return HttpResponse(
-#         render_to_string('index.html', context, request)
-#     )
+def index(request):
+    bbs = Bb.objects.all()
+    rubrics = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
 
-class BbIndexView(ArchiveIndexView):
+    paginator = Paginator(bbs, 2, orphans=2)
+
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+
+    page = paginator.get_page(page_num)
+
+    context = {'rubrics': rubrics, 'page_obj': page, 'bbs': page.object_list}
+
+    # template = get_template('index.html')
+    # return HttpResponse(
+    #     # template.render(context=context, request=request))
+    #     template.render(context, request))
+
+    return render(request, 'index.html', context)
+
+# class BbIndexView(ArchiveIndexView):
+#     model = Bb
+#     template_name = 'index.html'
+#     date_field = 'published'
+#     date_list_period = 'month'
+#     month_format = '%m'
+#     context_object_name = 'bbs'
+#     allow_empty = True
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['rubrics'] = Rubric.objects.all()
+#         return context
+
+
+class BbIndexView(ListView):
     model = Bb
     template_name = 'index.html'
-    date_field = 'published'
-    date_list_period = 'month'
-    month_format = '%m'
     context_object_name = 'bbs'
-    allow_empty = True
+    paginate_by = 2
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_queryset(self):
+        return Bb.objects.all()
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        return context
+        context['rubrics'] = Rubric.objects.annotate(cnt=Count('bb')).filter(cnt__gt=0)
 
 
 class BbMonthView(MonthArchiveView):
