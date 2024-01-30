@@ -20,7 +20,7 @@ from django.urls import path
 from .views import (# index,
                     BbIndexView, BbByRubricView, BbCreateView,
                     BbDetailView, BbAddView, BbEditView, BbDeleteView, BbMonthView,
-                    RedirectView,
+                    RedirectView, edit
                     )
 
 # Скобки потому что много строк, если 1 СТРОКА, тогда БЕЗ СКОБОК
@@ -40,6 +40,6 @@ urlpatterns = [
     path('', BbIndexView.as_view(), name='index'),
     path('year/<int:year>/', RedirectView.as_view(), name='redirect'),
     path('<int:year>/<int:month>/', BbMonthView.as_view(), name='month'),
-    path('update/<int:pk>/', BbEditView.as_view(), name='update'),
+    path('update/<int:pk>/', edit, name='update'),
     path('delete/<int:pk>/', BbDeleteView.as_view(), name='delete'),
 ]

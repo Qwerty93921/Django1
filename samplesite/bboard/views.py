@@ -1,3 +1,4 @@
+from django.core.exceptions import NON_FIELD_ERRORS
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import render
@@ -246,7 +247,8 @@ class BbDeleteView(DeleteView):
 class BbCreateView(CreateView):
     template_name = 'create.html'
     form_class = BbForm
-    success_url = reverse_lazy('index')
+    success_url = '/'
+    # success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) # key word arguments, kwargs - ключ значение, args - набор значений
@@ -273,3 +275,37 @@ class BbCreateView(CreateView):
     # for bb in Bb.objects.order_by('-published'):
     #     s += bb.title + '\r\n' + bb.content + '\r\n\r\n'
     # return HttpResponse(s, content_type='text/plain; charset=utf-8')
+
+def edit(request, pk):
+    bb = Bb.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        bbf = BbForm(request.POST, instance=bb)
+        if bbf.is_valid():
+            if bbf.has_changed():
+                bbf.save()
+            return HttpResponseRedirect(
+                reverse('bboard:by_rubric',
+                        kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk})
+            )
+        else:
+            context = {'form' : bbf}
+            return render(request, 'bboard/bb_form.html', context)
+    else:
+        bbf = BbForm(instance=bb)
+        context = {'form': bbf}
+        return render(request, 'bboard/bb_form.html', context)
+
+
+def add_save(request):
+    bbf = BbForm(request.POST)
+
+    if bbf.is_valid():
+        bbf.save()
+        return HttpResponseRedirect(
+            reverse('bboard:by_rubric',
+                    kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk})
+        )
+    else:
+        context = {'form': bbf}
+        return render(request, 'bboard/bb_form.html', context)
