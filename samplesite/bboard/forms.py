@@ -2,8 +2,9 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm, modelform_factory, DecimalField
 from django import forms
 from django.forms.widgets import Select
-
-from .models import Bb
+from django.core import validators
+from .models import Bb, Rubric
+from django.core.exceptions import ValidationError
 
 # фабрика классов
 
@@ -32,18 +33,44 @@ from .models import Bb
 
 
 class BbForm(forms.ModelForm):
-    # title = forms.CharField(label='Название товара')
-    # content = forms.CharField(label='Описание',
-    #                           widget=forms.widgets.Textarea())
+    title = forms.CharField(label='Название товара',
+                            validators=[validators.RegexValidator(regex='^.{4,}$')],
+                            error_messages={'invalid': 'Слишком короткое название товара'}
+                            )
+
     price = forms.DecimalField(label='Цена', decimal_places=2)
     rubric = forms.ModelChoiceField(queryset=Rubric.objects.all(),
                                     label='Рубрика', help_text={'Не забудь выбрать рубрику'},
                                     widget=forms.widgets.Select(attrs={'size': 8}))
-    published = forms.DateField(
-        widget=forms.widgets.SelectDateWidget(
-            empty_label=('Выберите год', 'выберите год', )
-        )
-    )
+
+    # published = forms.DateField(
+    #     widget=forms.widgets.SelectDateWidget(
+    #         empty_label=('Выберите год', 'выберите год', )
+    #     )
+    # )
+
+    # content = forms.CharField(label='Описание',
+    #                           widget=forms.widgets.Textarea())
+
+    def clean_title(self):
+        # val = self.cleaned_data['title']
+        val = self.cleaned_data.get('title')
+        if val == 'Прошлогодний снег':
+            raise ValidationError('К продаже не допускается')
+        return val
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        if not self.cleaned_data.get('content'):
+            errors['content'] = ValidationError('Укажите описание продаваемого товара')
+
+        if self.cleaned_data.get('price') < 0:
+            errors['price'] = ValidationError('Укажите неотрицательные значение цены')
+
+        if errors:
+            raise ValidationError(errors)
 
     class Meta:
         model = Bb
