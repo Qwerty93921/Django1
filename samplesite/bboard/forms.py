@@ -92,3 +92,9 @@ class RegisterUserForm(forms.ModelForm):
 
 class RubricBaseFormSet(forms.BaseModelFormSet):
     pass
+
+
+class BbInlineForm(forms.BaseInlineFormSet):
+    class Meta:
+        model = Bb
+        fields = ('title', 'content', 'price', 'rubric')

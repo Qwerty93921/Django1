@@ -12,11 +12,11 @@ from django.views.generic.detail import DetailView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import FormView, ArchiveIndexView, MonthArchiveView, RedirectView
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, inlineformset_factory
 
 # FormView, ArchiveIndexView, MonthArchiveView
 
-from .forms import BbForm, RubricBaseFormSet
+from .forms import BbForm, RubricBaseFormSet, BbInlineForm
 from .models import Bb, Rubric
 
 
@@ -339,3 +339,19 @@ def rubrics(request):
     context = {'formset': formset}
 
     return render(request, 'bboard/rubrics.html', context)
+
+
+def bbs(request, rubric_id):
+    BbsFormSet = inlineformset_factory(Rubric, Bb, form=BbInlineForm, extra=1)
+    rubric = Rubric.objects.get(pk=rubric_id)
+    if request.method == 'POST':
+        formset = BbsFormSet(request.POST, instance=rubric)
+
+        if formset.is_valid():
+            formset.save()
+            return redirect('bboard:index')
+    else:
+        formset = BbsFormSet(instance=rubric)
+
+        context = {'formset': formset, 'current_rubric': rubric}
+        return render(request, 'bboard/bbs.html', context)
