@@ -162,3 +162,9 @@ class Bb(models.Model):
         verbose_name = 'Объявления'
         # ordering = ['-published']
         # order_with_respect_to = 'rubric'
+
+
+class RevRubric(Rubric):
+    class Meta:
+        proxy = True
+        ordering = ['-name']
