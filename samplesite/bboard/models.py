@@ -42,11 +42,35 @@ def validate_even(val):
 #             )
 #
 
+class RubricQuerySet(models.QuerySet):
+    def order_by_bb_count(self):
+        # return self.annotate(
+        #     cnt=models.Count('bb')).order_by('-cnt')
+        return self.annotate(cnt=models.Count('bb')).order_by('-cnt')
+
+# Диспетчер записей снизу
+
+
+class RubricManager(models.Manager):
+    def get_queryset(self):
+        # return super().get_queryset().order_by('-order', '-name')
+        return RubricQuerySet(self.model, using=self._db)
+
+    def order_by_bb_count(self):
+        return super().get_queryset().annotate(
+            cnt=models.Count('bb')).order_by('-cnt')
+
+
+class BbManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('price')
+
 
 class Rubric(models.Model):
     name = models.CharField(max_length=20, db_index=True,
                             verbose_name='Название', unique=True)
     order = models.SmallIntegerField(default=0, db_index=True)
+    objects = models.Manager.from_queryset(RubricQuerySet)()
 
     def __str__(self):
         return self.name
@@ -124,11 +148,9 @@ class Bb(models.Model):
     is_active = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Опубликовано")
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    # def __str__(self):
-    #    pass
-    # Он меняет цвет
+    objects = models.Manager()
+    by_price = BbManager()
 
     def __str__(self):
         return f'{self.title}'

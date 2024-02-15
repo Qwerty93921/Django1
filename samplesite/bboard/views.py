@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import Count
 from django.forms.formsets import ORDERING_FIELD_NAME
 from django.shortcuts import render, redirect
@@ -317,6 +318,9 @@ def add_save(request):
         context = {'form': bbf}
         return render(request, 'bboard/bb_form.html', context)
 
+def commit_handler(request):
+    print("C O M M I T E D")
+
 
 def rubrics(request):
     RubricFormSet = modelformset_factory(Rubric, fields=('name',),
@@ -349,6 +353,7 @@ def rubrics(request):
 # @user_passes_test(lambda user: user.is_staff)
 # @permission_required('bboard.view_rubric')
 
+
 def bbs(request, rubric_id):
     BbsFormSet = inlineformset_factory(Rubric, Bb, form=BbInlineForm, extra=1)
     rubric = Rubric.objects.get(pk=rubric_id)
@@ -371,10 +376,32 @@ def bbs(request, rubric_id):
         formset = BbsFormSet(request.POST, instance=rubric)
 
         if formset.is_valid():
-            formset.save()
-            return redirect('bboard:index')
+            instances = formset.save(commit=False)
+            for obj in formset:
+                if obj.cleaned_data:
+                sp = transaction.savepoint()
+
+                try:
+                    rubric = obj.save(commit=False)
+                    rubric.order = obj.cleaned_data(ORDERING_FIELD_NAME)
+                    rubric.save()
+                    transaction.savepoint_commit(sp)
+                    print("C O M M I T E D")
+                except:
+                    transaction.savepoint_rollback(sp)
+                    transaction.commit()
+                    print("N O T  C O M M I T E D", rubric)
+
+                transaction.on_commit(commit_handler)
+
+            for obj in formset.deleted_objects:
+                obj.delete()
+
+            return redirect('bboard:rubrics')
+
     else:
         formset = BbsFormSet(instance=rubric)
 
-        context = {'formset': formset, 'current_rubric': rubric}
-        return render(request, 'bboard/bbs.html', context)
+    context = {'formset': formset, 'current_rubric': rubric}
+
+    return render(request, 'bboard/bbs.html', context)
