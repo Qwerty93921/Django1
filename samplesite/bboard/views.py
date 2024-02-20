@@ -379,20 +379,19 @@ def bbs(request, rubric_id):
             instances = formset.save(commit=False)
             for obj in formset:
                 if obj.cleaned_data:
-                sp = transaction.savepoint()
+                    sp = transaction.savepoint()
+                    try:
+                        rubric = obj.save(commit=False)
+                        rubric.order = obj.cleaned_data(ORDERING_FIELD_NAME)
+                        rubric.save()
+                        transaction.savepoint_commit(sp)
+                        print("C O M M I T E D")
+                    except:
+                        transaction.savepoint_rollback(sp)
+                        transaction.commit()
+                        print("N O T  C O M M I T E D", rubric)
 
-                try:
-                    rubric = obj.save(commit=False)
-                    rubric.order = obj.cleaned_data(ORDERING_FIELD_NAME)
-                    rubric.save()
-                    transaction.savepoint_commit(sp)
-                    print("C O M M I T E D")
-                except:
-                    transaction.savepoint_rollback(sp)
-                    transaction.commit()
-                    print("N O T  C O M M I T E D", rubric)
-
-                transaction.on_commit(commit_handler)
+                    transaction.on_commit(commit_handler)
 
             for obj in formset.deleted_objects:
                 obj.delete()
