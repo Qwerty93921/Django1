@@ -1,10 +1,16 @@
 {% extends "layout/basic.html" %}
+{% load bbcode_tags %}
 
-{% block title %}Изменение объявления{{ bb.title }}{% endblock %}
+{% block title %}{{ bb.title }}{% endblock %}
 
 {% block content %}
     <p>Рубрика: {{ bb.rubric.name|capfirst }}</p>
     <h2>{{ bb.title }}</h2>
+
+    {% bbcode bb.content %}
+
+    {{ bb.content|bbcode|safe }}
+
     <p>{{ bb.content }} ({{ bb.content|wordcount }} слов) ({{ bb.content|length }} символов)</p>
     <p>Цена: {{ bb.price|default:'У товара нет цены' }}</p>
 
@@ -12,4 +18,5 @@
         <a href="{% url 'bboard:update' bb.pk %}">Изменить</a>
         <a href="{% url 'bboard:delete' bb.pk %}">Удалить</a>
     </p>
+
 {% endblock %}

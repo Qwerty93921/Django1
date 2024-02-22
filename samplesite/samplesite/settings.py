@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
 
     'captcha',
+    'precise_bbcode',
 
     'bboard.apps.BbroardConfig',  # 'bboard',
     'testapp',

@@ -17,6 +17,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import FormView, ArchiveIndexView, MonthArchiveView, RedirectView
 from django.forms import modelformset_factory, inlineformset_factory
+from precise_bbcode.bbcode import get_parser
 
 # FormView, ArchiveIndexView, MonthArchiveView
 
@@ -250,6 +251,13 @@ class BbDeleteView(DeleteView):
 #         bbf = BbForm()
 #         context = {'form': bbf}
 #         return render(request, 'create.html', context)
+
+
+def detail(request, pk):
+    parser = get_parser()
+    bb = Bb.objects.get(pk=pk)
+    parsed_content = parser.render(bb.content)
+    pass
 
 
 class BbCreateView(CreateView):
