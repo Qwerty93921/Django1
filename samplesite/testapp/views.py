@@ -8,6 +8,8 @@ from django.views.decorators.http import require_http_methods, require_GET, requ
 
 from bboard.models import Rubric, Bb
 
+from Django1.samplesite.testapp.forms import ImgForm
+
 
 # Create your views here.
 
@@ -52,8 +54,20 @@ def index(request):
     rubric = get_object_or_404(Rubric, name="Транспорт")
     bbs = get_list_or_404(Bb, rubric=rubric)
 
-    res = resolve('/test/') #вместо test - "2" написать
+    res = resolve('/2/') #вместо test - "2" написать
 
     context = {'title': 'Тестовая страница', 'bbs': bbs, 'res': res}
 
     return render(request, 'test.html', context)
+
+
+def add(request):
+    if request.method == 'POST':
+        form = ImgForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('testapp:index')
+    else:
+        form = ImgForm()
+    context = {'form': form}
+    return render(request, 'testapp/add.html', context)
