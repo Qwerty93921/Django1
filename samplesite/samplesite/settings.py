@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'captcha',
     'precise_bbcode',
+    'django-cleanup',
+    'easy-thumbnails',
 
     'bboard.apps.BbroardConfig',  # 'bboard',
     'testapp',
